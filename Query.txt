@@ -1,0 +1,93 @@
+GO
+If not exists (Select*from sys.databases where name='SocialMedia')
+Begin
+	create database SocialMedia
+End
+
+GO
+USE SocialMedia
+
+GO
+If not exists (Select*from sys.tables where name='Users')
+Begin
+	create table [Users]
+	(
+	[User_ID] INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	Username VARCHAR(50) NOT NULL,
+	EMail VARCHAR(100) NOT NULL ,
+	UNIQUE (EMail),
+	[Password] VARCHAR(100) NOT NULL,
+	ProfilePicture_Link VARCHAR(250),
+	[Role] VARCHAR(7) NOT NULL,
+	constraint Role_Constraint_Users CHECK ([Role] = 'Admin' or [Role]= 'User'),
+	IsDeleted BIT NOT NULL DEFAULT 0,
+	)
+End
+
+GO
+If not exists (Select*from sys.tables where name='Posts')
+Begin
+	create table [Posts]
+	(
+	Post_ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	[User_ID] INT NOT NULL,
+	constraint FK_User_ID_Posts FOREIGN KEY ([User_ID]) REFERENCES Users([User_ID]),
+	[Text] VARCHAR(300) NOT NULL,
+	Posted_Date DATE NOT NULL,
+	)
+End
+
+GO
+If not exists (Select*from sys.tables where name='Likes')
+Begin
+	create table [Likes]
+	(
+	Like_ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	[Post_ID] INT NOT NULL,
+	constraint FK_Posts_ID_Likes FOREIGN KEY ([Post_ID]) REFERENCES Posts(Post_ID) on update cascade on delete cascade,
+	[User_ID] INT NOT NULL,
+	constraint FK_User_ID_Likes FOREIGN KEY ([User_ID]) REFERENCES Users([User_ID]),
+	)
+End
+
+GO
+If not exists (Select*from sys.tables where name='Follows')
+Begin
+	create table [Follows]
+	(
+	Follow_ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	FirstUser_ID INT NOT NULL,
+	constraint FK_FirstUser_ID_Follows FOREIGN KEY (FirstUser_ID) REFERENCES Users([User_ID]),
+	SecondUser_ID INT NOT NULL,
+	constraint FK_SecondUser_ID_Follows FOREIGN KEY (SecondUser_ID) REFERENCES Users([User_ID]),
+	)
+End
+
+GO
+If not exists (Select*from sys.tables where name='Comments')
+Begin
+	create table [Comments]
+	(
+	Comment_ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	[Post_ID] INT NOT NULL,
+	constraint FK_Posts_ID_Comments FOREIGN KEY ([Post_ID]) REFERENCES Posts(Post_ID) on update cascade on delete cascade,
+	[User_ID] INT NOT NULL,
+	constraint FK_User_ID_Comments FOREIGN KEY ([User_ID]) REFERENCES Users([User_ID]),
+	[Text] VARCHAR(300) NOT NULL,
+	Posted_Date DATE NOT NULL,
+	)
+End
+
+GO
+If not exists (Select*from sys.tables where name='Reports')
+Begin
+	create table [Reports]
+	(
+	Report_ID INT NOT NULL IDENTITY(0,1) PRIMARY KEY,
+	[User_ID] INT NOT NULL,
+	constraint FK_User_ID_Reports FOREIGN KEY ([User_ID]) REFERENCES Users([User_ID]),
+	[Text] VARCHAR(300) NOT NULL,
+	Posted_Date DATE NOT NULL,
+	IsDeleted BIT NOT NULL DEFAULT 0,
+	)
+End
