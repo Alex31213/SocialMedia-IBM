@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SocialMediaApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace SocialMediaApp
         {
 
             services.AddControllers();
+            AddDependencies(services);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SocialMediaApp", Version = "v1" });
@@ -54,6 +56,11 @@ namespace SocialMediaApp
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void AddDependencies(IServiceCollection services)
+        {
+            services.AddScoped<IUserAuthorizationService, UserAuthorizationService>();
         }
     }
 }
