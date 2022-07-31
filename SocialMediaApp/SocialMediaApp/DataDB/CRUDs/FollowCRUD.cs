@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp.DataDB.CRUDs
 {
-    public class FollowCRUD
+    public class FollowCRUD : ICRUD<Follow>
     {
         public void Add(Follow addedFollow)
         {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp.DataDB.CRUDs
 {
-    public class UserCRUD
+    public class UserCRUD : ICRUD<User>
     {
         public void Add(User addedUser)
         {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp.DataDB.CRUDs
 {
-    public class LikeCRUD
+    public class LikeCRUD : ICRUD<Like>
     {
         public void Add(Like addedLike)
         {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SocialMediaApp.DataDB.CRUDs
 {
-    public class PostCRUD
+    public class PostCRUD : ICRUD<Post>
     {
         public void Add(Post addedPost)
         {
