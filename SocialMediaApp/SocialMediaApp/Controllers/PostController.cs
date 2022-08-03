@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaApp.DataDB;
 using SocialMediaApp.DataDB.CRUDs;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 namespace SocialMediaApp.Controllers
 {
     [Route("api/Post")]
-    [ApiController]
+    [ApiController,Authorize]
     public class PostController : ControllerBase
     {
         PostCRUD postCrud = new PostCRUD();
@@ -25,7 +26,7 @@ namespace SocialMediaApp.Controllers
         /// Get all posts from DB
         /// </summary>
         [HttpGet]
-        [Route("GetAllPostsFromUser")]
+        [Route("GetAllPosts")]
         public IEnumerable<Post> GetAll() => postCrud.GetAllPosts();
 
         /// <summary>

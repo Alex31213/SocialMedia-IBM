@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaApp.DataDB;
 using SocialMediaApp.DataDB.CRUDs;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 namespace SocialMediaApp.Controllers
 {
     [Route("api/Like")]
-    [ApiController]
+    [ApiController,Authorize]
     public class LikeController : ControllerBase
     {
         private LikeCRUD likeCrud = new LikeCRUD();

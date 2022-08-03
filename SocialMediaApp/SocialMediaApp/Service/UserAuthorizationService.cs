@@ -103,31 +103,30 @@ namespace SocialMediaApp.Service
 
         public string GetToken(User user)
         {
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-
             /* Generate keys online
              * 128-bit  
              * https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
             */
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("WoWThatsMyInsaneEncryptedSecretKey"));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var idClaim = new Claim("userId", user.UserId.ToString());
-            var infoClaim = new Claim("username", user.Username.ToString());
-            var roleClaim = new Claim("role", user.Role.ToString());
+            //var idClaim = new Claim("userId", user.UserId.ToString());
+            //var infoClaim = new Claim("username", user.Username.ToString());
+            //var roleClaim = new Claim("role", user.Role.ToString());
 
-            var tokenDescriptior = new SecurityTokenDescriptor
-            {
-                Issuer = _jwtSettings["validIssuer"],
-                Audience = _jwtSettings["validAudience"],
-                Subject = new ClaimsIdentity(new[] { idClaim, infoClaim, roleClaim }),
-                Expires = DateTime.Now.AddHours(1),
-                SigningCredentials = credentials
-            };
+            var tokenDescriptior = new JwtSecurityToken
+            (
+                //issuer: _jwtSettings["validIssuer"],
+                //audience: _jwtSettings["validAudience"],
+                issuer: "https://localhost:7223",
+                audience: "https://localhost:7223",
+                claims: new List<Claim>(),
+                expires: DateTime.Now.AddHours(1),
+                signingCredentials: credentials
+            );
 
-            var token = jwtTokenHandler.CreateToken(tokenDescriptior);
-            var tokenString = jwtTokenHandler.WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenDescriptior);
 
             return tokenString;
         }

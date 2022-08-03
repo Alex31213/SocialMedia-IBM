@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 namespace SocialMediaApp.Controllers
 {
     [Route("api/User")]
-    [ApiController]
+    [ApiController,Authorize]
     public class UserController : ControllerBase
     {
         private UserCRUD userCRUD = new UserCRUD();
@@ -32,7 +32,7 @@ namespace SocialMediaApp.Controllers
         /// Get a jwt token
         /// </remarks>
         /// <response code="200">User</response> 
-        [HttpPost]
+        [HttpPost,AllowAnonymous]
         [Route("login")]
         public ActionResult Login([FromBody] UserRequestModel user) => LoginUser(user);
 
@@ -40,7 +40,7 @@ namespace SocialMediaApp.Controllers
         /// Add new user to DB and verifying for username to be unique
         /// </summary>
         /// <response code="200">User</response>
-        [HttpPost]
+        [HttpPost,AllowAnonymous]
         [Route("register")]
         public ActionResult Register([FromBody] UserRequestModel user) => AddDbUser(user);
 

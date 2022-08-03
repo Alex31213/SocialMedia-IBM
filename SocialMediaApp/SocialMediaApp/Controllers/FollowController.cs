@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMediaApp.DataDB;
 using SocialMediaApp.DataDB.CRUDs;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 namespace SocialMediaApp.Controllers
 {
     [Route("api/Follow")]
-    [ApiController]
+    [ApiController,Authorize]
     public class FollowController : ControllerBase
     {
         private FollowCRUD followCrud = new FollowCRUD();
@@ -28,7 +29,7 @@ namespace SocialMediaApp.Controllers
         /// Returns empty enumerable object if there are no follows in DB
         //admin
         [HttpGet]
-        [Route("GetAllFollowsFromPost")]
+        [Route("GetAllFollowsPossible")]
         public IEnumerable<Follow> GetAllFollowsPossible() => followCrud.GetAllFollows();
 
         /// <summary>
